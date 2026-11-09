@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAU Vote | Shaikh Ayaz University Online Elections</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1e3a8a; /* University Deep Blue */
+            --primary-hover: #1e40af;
+            --accent-color: #d97706; /* Golden Amber */
+            --bg-main: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-color: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --sidebar-width: 260px;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-color);
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #0f172a;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.5rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand i { 
+            color: var(--accent-color); 
+            font-size: 2rem; 
+        }
+
+        .brand-text h2 {
+            font-size: 1.2rem;
+            color: #ffffff;
+            line-height: 1.1;
+        }
+
+        .brand-text p {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .nav-item {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .sidebar-footer { 
+            font-size: 0.8rem; 
+            color: #64748b; 
+            text-align: center;
+            border-top: 1px solid #334155;
+            padding-top: 1rem;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .top-header {
+            background: var(--bg-card);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f8fafc;
+            padding: 0.58rem 1rem;
+            border-radius: 8px;
+            width: 340px;
+            border: 1px solid var(--border-color);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .avatar-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+
+        .user-role {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Page Layout & Tab Switching */
+        .tab-content {
+            display: none;
+            padding: 2rem;
+        }
+
+        .tab-content.active-tab {
+            display: block;
+        }
+
+        .page-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+        }
+
+        .btn {
+            border: none;
+            padding: 0.65rem 1.3rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .btn-accent:hover { background-color: #b45309; }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        .btn-outline:hover { background: var(--primary-color); color: #fff; }
+
+        /* Banner Card */
+        .banner-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
+        }
+
+        .banner-text h2 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .banner-text p { opacity: 0.9; font-size: 0.95rem; }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .bg-blue { background: #3b82f6; }
+        .bg-green { background: #10b981; }
+        .bg-amber { background: #d97706; }
+        .bg-purple { background: #8b5cf6; }
+
+        .stat-info h3 { font-size: 1.6rem; }
+        .stat-info p { color: var(--text-muted); font-size: 0.85rem; }
+
+        /* Candidate Cards Grid */
+        .candidates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .candidate-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .candidate-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .cand-avatar {
+            width: 80px; height: 80px;
+            background: #e2e8f0;
+            color: var(--primary-color);
+            font-size: 2rem;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1rem auto;
+            border: 3px solid #cbd5e1;
+        }
+
+        .candidate-card h3 { margin-bottom: 0.25rem; font-size: 1.15rem; }
+        .cand-dept { color: var(--accent-color); font-weight: 600; font-size: 0.85rem; margin-bottom: 0.25rem; }
+        .cand-post { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1rem; }
+        .vote-count-badge {
+            background: #eff6ff;
+            color: var(--primary-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        /* Results & Progress Bar Styling */
+        .result-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-item {
+            margin-bottom: 1.25rem;
+        }
+
+        .result-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .progress-bar-bg {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 14px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Status Badges */
+        .badge {
+            background: #dbeafe;
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .status-voted { background: #d1fae5; color: #047857; }
+        .status-pending { background: #fef3c7; color: #b45309; }
+
+        /* Form Controls & Settings */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+        .form-control:focus { border-color: var(--primary-color); }
+
+        /* Modal Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+        .close-btn:hover { color: var(--text-color); }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { width: 100%; min-height: auto; }
+            .search-box { width: 200px; }
+            .top-header { padding: 1rem; }
+            .tab-content { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fa-solid fa-vote-yea"></i>
+                <div class="brand-text">
+                    <h2>SAU Vote</h2>
+                    <p>Shaikh Ayaz University</p>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" onclick="switchTab(event, 'dashboard-sec')"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                <a href="#" class="nav-item" onclick="switchTab(event, 'cast-vote-sec')"><i class="fa-solid fa-box-archive"></i> Cast Vote</a>
+                <a href="#" class="nav-item" onclick="switchTab(event, 'candidates-sec')"><i class="fa-solid fa-users"></i> Candidates</a>
+                <a href="#" class="nav-item" onclick="switchTab(event, 'results-sec')"><i class="fa-solid fa-square-poll-vertical"></i> Election Results</a>
+                <a href="#" class="nav-item" onclick="switchTab(event, 'settings-sec')"><i class="fa-solid fa-gear"></i> System Settings</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Designed by Faraz Hussain</p>
+                <p style="font-size:0.7rem; color:#475569; margin-top:0.2rem;">Web Tech Final Project</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header Bar -->
+            <header class="top-header">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" onkeyup="filterCandidates()" placeholder="Search candidates or departments...">
+                </div>
+                <div class="user-profile">
+                    <i class="fa-regular fa-bell icon" style="cursor:pointer;" onclick="alert('No new election notifications.')"></i>
+                    <div class="avatar-container">
+                        <div class="avatar">F</div>
+                        <div class="user-info">
+                            <span class="user-name">Faraz Hussain</span>
+                            <span class="user-role">System Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content Section -->
+            <section id="dashboard-sec" class="tab-content active-tab">
+                <div class="banner-card">
+                    <div class="banner-text">
+                        <h2>Shaikh Ayaz University Elections</h2>
+                        <p>Welcome, Faraz Hussain. Cast your vote securely and track live election metrics.</p>
+                    </div>
+                    <button class="btn btn-accent" onclick="switchTab(event, 'cast-vote-sec')"><i class="fa-solid fa-check-to-slot"></i> Vote Now</button>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-blue"><i class="fa-solid fa-users"></i></div>
+                        <div class="stat-info">
+                            <h3 id="totalCandidatesCount">6</h3>
+                            <p>Total Candidates</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-green"><i class="fa-solid fa-check-double"></i></div>
+                        <div class="stat-info">
+                            <h3 id="totalVotesCast">1,482</h3>
+                            <p>Total Votes Cast</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-amber"><i class="fa-solid fa-user-graduate"></i></div>
+                        <div class="stat-info">
+                            <h3>2,500</h3>
+                            <p>Registered Students</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-purple"><i class="fa-solid fa-clock"></i></div>
+                        <div class="stat-info">
+                            <h3>06h 45m</h3>
+                            <p>Time Remaining</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Candidates Overview -->
+                <div class="result-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                        <h2>Leading Candidates</h2>
+                        <span class="badge">Live Polls</span>
+                    </div>
+                    <div class="candidates-grid" id="dashboardCandidatesGrid">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cast Vote Section -->
+            <section id="cast-vote-sec" class="tab-content">
+                <div class="page-title">
+                    <h1>Cast Your Vote</h1>
+                    <span id="userVoteBadge" class="badge status-pending">Status: Vote Pending</span>
+                </div>
+                
+                <div class="result-card">
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Please select one candidate for each position and click submit. You can only vote once per student ID.</p>
+                    
+                    <form id="votingForm" onsubmit="handleVoteSubmit(event)">
+                        <h3 style="margin-bottom:1rem; color:var(--primary-color);"><i class="fa-solid fa-user-tie"></i> Presidential Candidates</h3>
+                        <div class="candidates-grid" id="presidentialGrid">
+                            <!-- Rendered dynamically -->
+                        </div>
+
+                        <h3 style="margin-top:2rem; margin-bottom:1rem; color:var(--primary-color);"><i class="fa-solid fa-user-gear"></i> General Secretary Candidates</h3>
+                        <div class="candidates-grid" id="secretaryGrid">
+                            <!-- Rendered dynamically -->
+                        </div>
+
+                        <div style="margin-top:2rem; text-align:right;">
+                            <button type="submit" id="submitVoteBtn" class="btn btn-primary" style="padding:0.8rem 2rem; font-size:1rem;"><i class="fa-solid fa-paper-plane"></i> Submit Ballots</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Candidates Directory Section -->
+            <section id="candidates-sec" class="tab-content">
+                <div class="page-title">
+                    <h1>All Registered Candidates</h1>
+                    <button class="btn btn-primary" onclick="openCandidateModal()"><i class="fa-solid fa-plus"></i> Add Candidate</button>
+                </div>
+                
+                <div class="candidates-grid" id="allCandidatesGrid">
+                    <!-- Rendered dynamically -->
+                </div>
+            </section>
+
+            <!-- Election Results Section -->
+            <section id="results-sec" class="tab-content">
+                <div class="page-title">
+                    <h1>Live Election Results</h1>
+                    <button class="btn btn-outline" onclick="renderResults()"><i class="fa-solid fa-rotate-right"></i> Refresh Stats</button>
+                </div>
+
+                <div class="result-card">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">Presidential Race Results</h3>
+                    <div id="presidentialResultsList">
+                        <!-- Progress bars rendered by JS -->
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">General Secretary Race Results</h3>
+                    <div id="secretaryResultsList">
+                        <!-- Progress bars rendered by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-sec" class="tab-content">
+                <div class="page-title">
+                    <h1>Admin & Portal Settings</h1>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="result-card">
+                        <h3>Developer & Admin Profile</h3>
+                        <form style="margin-top: 1rem;" onsubmit="saveAdminProfile(event)">
+                            <div class="form-group">
+                                <label>System Developer / Admin Name</label>
+                                <input type="text" id="adminNameInput" value="Faraz Hussain" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>University Email</label>
+                                <input type="email" value="faraz.hussain@sau.edu.pk" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Department</label>
+                                <input type="text" value="Computer Science & Web Tech" class="form-control" readonly>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-top:0.5rem;">Update Admin Info</button>
+                        </form>
+                    </div>
+
+                    <div class="result-card">
+                        <h3>Election Portal Controls</h3>
+                        <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+                            <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                                <input type="checkbox" checked style="width: 18px; height: 18px;"> Enable Real-Time Vote Syncing
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                                <input type="checkbox" checked style="width: 18px; height: 18px;"> Require Two-Factor Verification for Voting
+                            </label>
+                            <button class="btn btn-outline" style="border-color:var(--danger-color); color:var(--danger-color); margin-top:1rem;" onclick="resetVotes()">
+                                <i class="fa-solid fa-arrow-rotate-left"></i> Reset All Election Votes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Candidate Modal -->
+    <div id="candidateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Register New Candidate</h2>
+                <span class="close-btn" onclick="closeCandidateModal()">&times;</span>
+            </div>
+            <form id="addCandidateForm" onsubmit="handleAddCandidate(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="candName" class="form-control" placeholder="e.g. Tariq Jameel" required>
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <input type="text" id="candDept" class="form-control" placeholder="e.g. Information Technology" required>
+                </div>
+                <div class="form-group">
+                    <label>Running Position</label>
+                    <select id="candPost" class="form-control" required>
+                        <option value="President">President</option>
+                        <option value="General Secretary">General Secretary</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Add Candidate</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data State Store
+        let candidatesData = [
+            { id: 1, name: "Ali Raza Kalhoro", department: "Computer Science", post: "President", votes: 420 },
+            { id: 2, name: "Sania Soomro", department: "Business Administration", post: "President", votes: 380 },
+            { id: 3, name: "Bilawal Bhutto", department: "English Literature", post: "President", votes: 150 },
+            { id: 4, name: "Zaid Shaikh", department: "Information Technology", post: "General Secretary", votes: 290 },
+            { id: 5, name: "Dua Memon", department: "Software Engineering", post: "General Secretary", votes: 242 },
+            { id: 6, name: "Hamza Abbasi", department: "Mathematics", post: "General Secretary", votes: 0 }
+        ];
+
+        let hasUserVoted = false;
+
+        // On Page Load Initialization
+        window.onload = function() {
+            renderDashboardCandidates();
+            renderVotingForms();
+            renderAllCandidates();
+            renderResults();
+            updateTotalMetrics();
+        };
+
+        // Navigation Tab Switcher
+        function switchTab(event, targetId) {
+            event.preventDefault();
+            
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active-tab'));
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            document.getElementById(targetId).classList.add('active-tab');
+            event.currentTarget.classList.add('active');
+
+            if (targetId === 'results-sec') {
+                renderResults();
+            }
+        }
+
+        // Render Cards for Dashboard
+        function renderDashboardCandidates() {
+            const grid = document.getElementById('dashboardCandidatesGrid');
+            grid.innerHTML = '';
+            
+            // Show top 3 candidates by vote
+            const sorted = [...candidatesData].sort((a, b) => b.votes - a.votes).slice(0, 3);
+
+            sorted.forEach(cand => {
+                grid.innerHTML += `
+                    <div class="candidate-card">
+                        <div class="cand-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+                        <h3>${cand.name}</h3>
+                        <p class="cand-dept">${cand.department}</p>
+                        <p class="cand-post">${cand.post}</p>
+                        <span class="vote-count-badge"><i class="fa-solid fa-check-to-slot"></i> ${cand.votes} Votes</span>
+                    </div>
+                `;
+            });
+        }
+
+        // Render Voting Radio Buttons
+        function renderVotingForms() {
+            const presGrid = document.getElementById('presidentialGrid');
+            const secGrid = document.getElementById('secretaryGrid');
+
+            presGrid.innerHTML = '';
+            secGrid.innerHTML = '';
+
+            candidatesData.forEach(cand => {
+                const cardHTML = `
+                    <div class="candidate-card" style="text-align:left;">
+                        <label style="display:flex; gap:0.75rem; cursor:pointer; align-items:flex-start;">
+                            <input type="radio" name="${cand.post}" value="${cand.id}" ${hasUserVoted ? 'disabled' : ''} style="margin-top:0.3rem; width:18px; height:18px;" required>
+                            <div>
+                                <h3>${cand.name}</h3>
+                                <p class="cand-dept">${cand.department}</p>
+                                <span class="badge" style="margin-top:0.4rem; display:inline-block;">Current: ${cand.votes} votes</span>
+                            </div>
+                        </label>
+                    </div>
+                `;
+
+                if (cand.post === 'President') {
+                    presGrid.innerHTML += cardHTML;
+                } else {
+                    secGrid.innerHTML += cardHTML;
+                }
+            });
+        }
+
+        // Render All Registered Candidates Catalog
+        function renderAllCandidates() {
+            const grid = document.getElementById('allCandidatesGrid');
+            grid.innerHTML = '';
+
+            candidatesData.forEach(cand => {
+                grid.innerHTML += `
+                    <div class="candidate-card" data-name="${cand.name.toLowerCase()}" data-dept="${cand.department.toLowerCase()}">
+                        <div class="cand-avatar"><i class="fa-solid fa-user-tie"></i></div>
+                        <h3>${cand.name}</h3>
+                        <p class="cand-dept">${cand.department}</p>
+                        <p class="cand-post">${cand.post}</p>
+                        <span class="vote-count-badge"><i class="fa-solid fa-box-archive"></i> ${cand.votes} Votes</span>
+                        <br>
+                        <button class="btn btn-outline" style="border-color:var(--danger-color); color:var(--danger-color); padding:0.3rem 0.8rem; font-size:0.8rem;" onclick="deleteCandidate(${cand.id})">
+                            <i class="fa-solid fa-trash"></i> Remove
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        // Render Progress Bar Results
+        function renderResults() {
+            const presList = document.getElementById('presidentialResultsList');
+            const secList = document.getElementById('secretaryResultsList');
+
+            presList.innerHTML = '';
+            secList.innerHTML = '';
+
+            const presTotal = candidatesData.filter(c => c.post === 'President').reduce((sum, c) => sum + c.votes, 0) || 1;
+            const secTotal = candidatesData.filter(c => c.post === 'General Secretary').reduce((sum, c) => sum + c.votes, 0) || 1;
+
+            candidatesData.forEach(cand => {
+                const total = cand.post === 'President' ? presTotal : secTotal;
+                const percent = ((cand.votes / total) * 100).toFixed(1);
+
+                const itemHTML = `
+                    <div class="result-item">
+                        <div class="result-info">
+                            <span>${cand.name} (${cand.department})</span>
+                            <span>${cand.votes} Votes (${percent}%)</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width: ${percent}%;"></div>
+                        </div>
+                    </div>
+                `;
+
+                if (cand.post === 'President') {
+                    presList.innerHTML += itemHTML;
+                } else {
+                    secList.innerHTML += itemHTML;
+                }
+            });
+        }
+
+        // Handle Voting Submission
+        function handleVoteSubmit(event) {
+            event.preventDefault();
+
+            if (hasUserVoted) {
+                alert('Notice: You have already submitted your ballots for this election cycle!');
+                return;
+            }
+
+            const presChoice = document.querySelector('input[name="President"]:checked');
+            const secChoice = document.querySelector('input[name="General Secretary"]:checked');
+
+            if (presChoice && secChoice) {
+                const presId = parseInt(presChoice.value);
+                const secId = parseInt(secChoice.value);
+
+                // Increment selected votes
+                candidatesData.find(c => c.id === presId).votes++;
+                candidatesData.find(c => c.id === secId).votes++;
+
+                hasUserVoted = true;
+
+                // Update UI state
+                document.getElementById('userVoteBadge').className = "badge status-voted";
+                document.getElementById('userVoteBadge').innerText = "Status: Vote Cast Successfully";
+                document.getElementById('submitVoteBtn').disabled = true;
+                document.getElementById('submitVoteBtn').style.opacity = "0.5";
+
+                updateTotalMetrics();
+                renderDashboardCandidates();
+                renderVotingForms();
+                renderAllCandidates();
+                renderResults();
+
+                alert('Congratulations Faraz Hussain! Your vote has been securely recorded on the SAU election ledger.');
+            }
+        }
+
+        // Live Filter Function
+        function filterCandidates() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('#allCandidatesGrid .candidate-card');
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const dept = card.getAttribute('data-dept');
+                if (name.includes(query) || dept.includes(query)) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // Modal Handlers
+        function openCandidateModal() {
+            document.getElementById('candidateModal').style.display = 'flex';
+        }
+
+        function closeCandidateModal() {
+            document.getElementById('candidateModal').style.display = 'none';
+        }
+
+        function handleAddCandidate(event) {
+            event.preventDefault();
+            const name = document.getElementById('candName').value;
+            const dept = document.getElementById('candDept').value;
+            const post = document.getElementById('candPost').value;
+
+            const newId = candidatesData.length ? Math.max(...candidatesData.map(c => c.id)) + 1 : 1;
+
+            candidatesData.push({
+                id: newId,
+                name: name,
+                department: dept,
+                post: post,
+                votes: 0
+            });
+
+            document.getElementById('addCandidateForm').reset();
+            closeCandidateModal();
+
+            updateTotalMetrics();
+            renderDashboardCandidates();
+            renderVotingForms();
+            renderAllCandidates();
+            renderResults();
+
+            alert('Candidate ' + name + ' successfully added to system!');
+        }
+
+        function deleteCandidate(id) {
+            if (confirm("Are you sure you want to remove this candidate?")) {
+                candidatesData = candidatesData.filter(c => c.id !== id);
+                updateTotalMetrics();
+                renderDashboardCandidates();
+                renderVotingForms();
+                renderAllCandidates();
+                renderResults();
+            }
+        }
+
+        function updateTotalMetrics() {
+            document.getElementById('totalCandidatesCount').innerText = candidatesData.length;
+            const grandTotal = candidatesData.reduce((sum, c) => sum + c.votes, 0);
+            document.getElementById('totalVotesCast').innerText = grandTotal.toLocaleString();
+        }
+
+        function saveAdminProfile(event) {
+            event.preventDefault();
+            const newName = document.getElementById('adminNameInput').value;
+            document.querySelectorAll('.user-name').forEach(el => el.innerText = newName);
+            document.querySelector('.avatar').innerText = newName.charAt(0).toUpperCase();
+            alert('Admin settings saved successfully!');
+        }
+
+        function resetVotes() {
+            if (confirm("Warning: Reset all election vote tallies back to zero?")) {
+                candidatesData.forEach(c => c.votes = 0);
+                hasUserVoted = false;
+                document.getElementById('userVoteBadge').className = "badge status-pending";
+                document.getElementById('userVoteBadge').innerText = "Status: Vote Pending";
+                document.getElementById('submitVoteBtn').disabled = false;
+                document.getElementById('submitVoteBtn').style.opacity = "1";
+
+                updateTotalMetrics();
+                renderDashboardCandidates();
+                renderVotingForms();
+                renderAllCandidates();
+                renderResults();
+            }
+        }
+    </script>
+</body>
+</html>
